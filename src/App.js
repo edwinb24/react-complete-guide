@@ -1,24 +1,26 @@
-import React, { useState } from 'react';
+import React, { Component } from 'react';
 import './css/App.css';
 import Person from './Person/Person';
 
 
 
-const app = props => {
-  const [personsState, setPersonsState] = useState({
+class App extends Component {
+  state = {
     persons: [
       {name: "Edwin", age: 29},
       {name: "Ana", age: 22},
       {name: "Manu", age: 23}
-    ]
-  })
+    ],
+    otherState: "Hi, Im other info",
+    showPersons: false
+  }
 
-  const [otherInfoState, setOtherInfoState] = useState("hellow")
+  tooglePersonHandler = () => {
+    this.setState({showPersons: !this.state.showPersons})
+  }
 
-  console.log(personsState, otherInfoState)
-
-  const switchName = (newName) => {
-    setPersonsState ({
+  switchName = (newName) => {
+    this.setState ({
       persons: [
         {name: newName, age: 29},
         {name: "Ana", age: 22},
@@ -27,8 +29,8 @@ const app = props => {
     })
   }
 
-  const nameChangedHandler = (event) => {
-    setPersonsState ({
+  nameChangedHandler = (event) => {
+    this.setState ({
       persons: [
         {name: 'Max', age: 29},
         {name: event.target.value, age: 22},
@@ -37,40 +39,37 @@ const app = props => {
     })
   }
 
-  const style = {
-    backgroundColor: "white",
-    font: 'inherit',
-    border: '1px solid red',
-    padding: "8px"
-  }
+  render () {
+    const style = {
+      backgroundColor: "white",
+      font: 'inherit',
+      border: '1px solid red',
+      padding: "8px"
+    }
 
-  return (
-    <div className="App">
-      <button 
-        onClick={switchName.bind(this, "Max!!!")}
-        style={style}
-      > 
-        Change name! 
-      </button>
-      <Person 
-        name={personsState.persons[0].name} 
-        age={personsState.persons[0].age} 
-      />
-      <Person 
-        click= {switchName.bind(this, "Maximilian!!!")}
-        name={personsState.persons[1].name} 
-        age={personsState.persons[1].age} 
-        changed={nameChangedHandler}
-      > Hellow </Person>
-      <Person 
-        name={personsState.persons[2].name} 
-        age={personsState.persons[2].age} 
-      />
-    </div>
-  )
+    let persons = this.state.showPersons ?
+      <div>
+        {this.state.persons.map(person => {
+        return <Person 
+          name={person.name} 
+          age={person.age} 
+         />
+        })}
+      </div>
+    : null
+ 
+    
+
+    return (
+      <div className="App">
+        <button onClick={this.tooglePersonHandler} style={style}>Toogler Person!</button>
+        {persons}
+      </div>
+    )
+  }
 }
 
-export default app;
+export default App;
 
 
   // state = {
