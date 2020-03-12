@@ -1,7 +1,25 @@
 import React, { Component } from 'react';
 
-import './css/App.css';
+// import classes from './css/App.css';
 import Person from './Person/Person';
+import styled from 'styled-components'
+
+const DisplayedP = styled.p`
+  color: ${props => props.alt <= 2 ? "red" : null};
+  font-weight: ${props => props.alt <= 1 ? "bold":"normal"};
+`
+
+const DisplayedButton = styled.button`
+  background-color: ${props => props.alt ? "green":"red"};
+  color: white;
+  font: inherit;
+  border: 1px solid red;
+  padding: 8px;
+  &:hover {
+    background-color: ${props => props.alt ? "lightgreen":"salmon"};
+    color: black;
+  }
+`
 
 class App extends Component {
   state = {
@@ -60,23 +78,13 @@ class App extends Component {
         )
     }
 
-    
-    const classes = []
-    if(this.state.persons.length <= 2)
-      classes.push("red")
-    if(this.state.persons.length <= 1)
-      classes.push("bold")
-
     return (
-      <div className="App">
+      <div className="">
         <h1>Hi I'm React App!</h1>
-        <p className={classes.join(" ")}>This is really working!</p>
-        <button
-          className="button"
-          onClick={this.tooglePersonHandler} 
-        >
+        <DisplayedP alt={this.state.persons.length}>This is really working!</DisplayedP>
+        <DisplayedButton onClick={this.tooglePersonHandler} alt={this.state.showPersons}>
           Toogler Person!
-        </button>
+        </DisplayedButton>
         {persons}
       </div>
     )

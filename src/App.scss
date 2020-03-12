@@ -7,16 +7,23 @@
 .bold {
   font-weight: bold; }
 
-  .button {
-    background-color: green;
-    color: white;
-    font: inherit;
-    border: 1px solid red;
-    padding: 8px;
-  
-    &:hover {
-      background-color:  lightgreen;
-      color: black;
-    }
-  
+.Button {
+  background-color: green;
+  color: white;
+  font: inherit;
+  border: 1px solid red;
+  padding: 8px;
+
+  &:hover {
+    background-color:  lightgreen;
+    color: black;
   }
+  
+  &.Red {
+    background-color: red;
+    &:hover {
+      background-color: salmon;
+    }
+  }
+}
+
