@@ -1,25 +1,8 @@
 import React, { Component } from 'react';
 
-// import classes from './css/App.css';
+import classes from './App.css';
 import Person from './Person/Person';
-import styled from 'styled-components'
-
-const DisplayedP = styled.p`
-  color: ${props => props.alt <= 2 ? "red" : null};
-  font-weight: ${props => props.alt <= 1 ? "bold":"normal"};
-`
-
-const DisplayedButton = styled.button`
-  background-color: ${props => props.alt ? "green":"red"};
-  color: white;
-  font: inherit;
-  border: 1px solid red;
-  padding: 8px;
-  &:hover {
-    background-color: ${props => props.alt ? "lightgreen":"salmon"};
-    color: black;
-  }
-`
+import ErrorBoundary from './ErrorBoundary/ErrorBoundary'
 
 class App extends Component {
   state = {
@@ -46,7 +29,7 @@ class App extends Component {
   
 
   nameChangedHandler = (event, id) => {
-    const personIndex = this.state.persons.findIndex(person => person.id === id)
+    const personIndex = this.state.persons.findIndex(person => person.userId === id)
 
     const person = {...this.state.persons[personIndex]}
 
@@ -60,31 +43,38 @@ class App extends Component {
 
   render () {
     let persons = null
+    const buttonClasses = [classes.Button]
 
     if(this.state.showPersons) {
       persons =  
       (
         <div>
           {this.state.persons.map((person, index) => {
-          return <Person 
-            click={this.deletePersonHandler.bind(this, index)}
-            name={person.name} 
-            age={person.age}
-            key={person.id}
-            changed={(event) => this.nameChangedHandler(event, person.id)}
-          />
+          return <ErrorBoundary key={person.id}>
+            <Person 
+              click={this.deletePersonHandler.bind(this, index)}
+              name={person.name} 
+              age={person.age}
+              changed={(event) => this.nameChangedHandler(event, person.id)}
+            />
+          </ErrorBoundary>
           })}
         </div>
         )
+        buttonClasses.push(classes.Red)
     }
 
+    const paragraphClasses = []
+    if(this.state.persons.length < 3) paragraphClasses.push(classes.red)
+    if(this.state.persons.length < 2) paragraphClasses.push(classes.bold)
+
     return (
-      <div className="">
+      <div className={classes.App}>
         <h1>Hi I'm React App!</h1>
-        <DisplayedP alt={this.state.persons.length}>This is really working!</DisplayedP>
-        <DisplayedButton onClick={this.tooglePersonHandler} alt={this.state.showPersons}>
+        <p className={paragraphClasses.join(' ')}>This is really working!</p>
+        <button onClick={this.tooglePersonHandler} className={buttonClasses.join(' ')}>
           Toogler Person!
-        </DisplayedButton>
+        </button>
         {persons}
       </div>
     )

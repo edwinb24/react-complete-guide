@@ -51,7 +51,7 @@
     "start": "concurrently \"node scripts/start.js\" \"npm run scss\" ",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js --env=jsdom",
-    "scss": "node-sass --watch src/ -o src/css"
+    "scss": "node-sass --watch src/ -o src/ --recursive false"
   },
   "jest": {
     "collectCoverageFrom": [
