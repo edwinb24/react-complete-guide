@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 
 import classes from './App.css';
-import Person from './Person/Person';
-import ErrorBoundary from './ErrorBoundary/ErrorBoundary'
+import Persons from '../components/Persons/Persons';
+import Cockpit from '../components/Cockpit/Cockpit';
 
 class App extends Component {
   state = {
@@ -29,7 +29,7 @@ class App extends Component {
   
 
   nameChangedHandler = (event, id) => {
-    const personIndex = this.state.persons.findIndex(person => person.userId === id)
+    const personIndex = this.state.persons.findIndex(person => person.id === id)
 
     const person = {...this.state.persons[personIndex]}
 
@@ -43,38 +43,28 @@ class App extends Component {
 
   render () {
     let persons = null
-    const buttonClasses = [classes.Button]
 
     if(this.state.showPersons) {
       persons =  
       (
         <div>
-          {this.state.persons.map((person, index) => {
-          return <ErrorBoundary key={person.id}>
-            <Person 
-              click={this.deletePersonHandler.bind(this, index)}
-              name={person.name} 
-              age={person.age}
-              changed={(event) => this.nameChangedHandler(event, person.id)}
-            />
-          </ErrorBoundary>
-          })}
+          <Persons 
+            clicked={this.deletePersonHandler} 
+            persons={this.state.persons} 
+            changed={this.nameChangedHandler}
+          />
         </div>
         )
-        buttonClasses.push(classes.Red)
     }
 
-    const paragraphClasses = []
-    if(this.state.persons.length < 3) paragraphClasses.push(classes.red)
-    if(this.state.persons.length < 2) paragraphClasses.push(classes.bold)
 
     return (
       <div className={classes.App}>
-        <h1>Hi I'm React App!</h1>
-        <p className={paragraphClasses.join(' ')}>This is really working!</p>
-        <button onClick={this.tooglePersonHandler} className={buttonClasses.join(' ')}>
-          Toogler Person!
-        </button>
+        <Cockpit 
+          persons={this.state.persons} 
+          showPersons={this.state.showPersons} 
+          clicked={this.tooglePersonHandler}
+        />
         {persons}
       </div>
     )
