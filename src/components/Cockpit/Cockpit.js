@@ -11,7 +11,7 @@ const Cockpit = (props) => {
 
     return (
         <div>
-            <h1>Hi I'm React App!</h1>
+            <h1>{props.title}</h1>
             <p className={paragraphClasses.join(' ')}>This is really working!</p>
             <button 
                 onClick={props.clicked} 
