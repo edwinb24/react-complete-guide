@@ -8,7 +8,6 @@ class App extends Component {
 
   constructor(props){
     super(props)
-    console.log("App JS - Constructor")
   }
 
   state = {
@@ -18,16 +17,22 @@ class App extends Component {
       {id:"c3", name: "Manu", age: 23}
     ],
     otherState: "Hi, Im other info",
-    showPersons: false
+    showPersons: false,
+    showCockpit: true
   }
 
-  static getDerivedStateFromProps(props, state) {
-    console.log("App JS - getDerivedStateFromProps")
-    return state
-  }
+  // static getDerivedStateFromProps(props, state) {
+  //   return state
+  // }
 
   componentDidMount() {
-    console.log("App JS - this.componentDidMount")
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return true
+  }
+
+  componentDidUpdate() {
   }
 
   tooglePersonHandler = () => {
@@ -57,7 +62,6 @@ class App extends Component {
   }
 
   render () {
-    console.log("App JS - Render")
     let persons = null
 
     if(this.state.showPersons) {
@@ -73,15 +77,15 @@ class App extends Component {
         )
     }
 
-
     return (
       <div className={classes.App}>
-        <Cockpit 
-          persons={this.state.persons} 
+        <button onClick={() => {this.setState({ showCockpit: false })}}>Remove Cockpit</button>
+        {this.state.showCockpit ? <Cockpit 
+          personsLength={this.state.persons.length} 
           showPersons={this.state.showPersons} 
           clicked={this.tooglePersonHandler}
           title={this.props.appTitle}
-        />
+        /> : null }
         {persons}
       </div>
     )

@@ -1,13 +1,27 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import classes from "./Cockpit.css"
 
 const Cockpit = (props) => {
     const buttonClasses = [classes.Button]
     if(props.showPersons) buttonClasses.push(classes.Red)
 
+
     const paragraphClasses = []
-    if(props.persons.length < 3) paragraphClasses.push(classes.red)
-    if(props.persons.length < 2) paragraphClasses.push(classes.bold)
+    if(props.personsLength < 3) paragraphClasses.push(classes.red)
+    if(props.personsLength < 2) paragraphClasses.push(classes.bold)
+
+    useEffect(() => {
+        setTimeout(() => {
+            alert("Saved data to the cloud")
+        }, 1000)
+        return () => {
+        }
+    }, [])
+
+    useEffect(() => {
+        return () => {
+        }
+    },)
 
     return (
         <div>
@@ -23,4 +37,4 @@ const Cockpit = (props) => {
     )
 }
 
-export default Cockpit
+export default React.memo(Cockpit)
